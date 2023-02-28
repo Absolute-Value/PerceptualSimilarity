@@ -103,8 +103,11 @@ class Trainer():
 
     def clamp_weights(self):
         for module in self.net.modules():
-            if(hasattr(module, 'weight') and module.kernel_size==(1,1)):
-                module.weight.data = torch.clamp(module.weight.data,min=0)
+            try:
+                if(hasattr(module, 'weight') and module.kernel_size==(1,1)):
+                    module.weight.data = torch.clamp(module.weight.data,min=0)
+            except:
+                pass
 
     def set_input(self, data):
         self.input_ref = data['ref']

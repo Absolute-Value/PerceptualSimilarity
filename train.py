@@ -18,6 +18,7 @@ parser.add_argument('--net', type=str, default='alex', help='[squeeze], [alex], 
 parser.add_argument('--batch_size', type=int, default=50, help='batch size to test image patches in')
 parser.add_argument('--use_gpu', action='store_true', help='turn on flag to use GPU')
 parser.add_argument('--gpu_ids', type=int, nargs='+', default=[0], help='gpus to use')
+parser.add_argument('--load_size', type=int, default=64)
 
 parser.add_argument('--nThreads', type=int, default=4, help='number of threads to use in data loader')
 parser.add_argument('--nepoch', type=int, default=5, help='# epochs at base learning rate')
@@ -48,7 +49,7 @@ trainer.initialize(model=opt.model, net=opt.net, use_gpu=opt.use_gpu, is_train=T
     pnet_rand=opt.from_scratch, pnet_tune=opt.train_trunk, gpu_ids=opt.gpu_ids)
 
 # load data from all training sets
-data_loader = dl.CreateDataLoader(opt.datasets,dataroot=opt.data_root,dataset_mode='2afc', batch_size=opt.batch_size, serial_batches=False, nThreads=opt.nThreads)
+data_loader = dl.CreateDataLoader(opt.datasets,dataroot=opt.data_root,load_size=opt.load_size,dataset_mode='2afc', batch_size=opt.batch_size, serial_batches=False, nThreads=opt.nThreads)
 dataset = data_loader.load_data()
 dataset_size = len(data_loader)
 D = len(dataset)

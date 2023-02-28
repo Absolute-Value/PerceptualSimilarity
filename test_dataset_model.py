@@ -15,6 +15,7 @@ parser.add_argument('--batch_size', type=int, default=50, help='batch size to te
 parser.add_argument('--use_gpu', action='store_true', help='turn on flag to use GPU')
 parser.add_argument('--gpu_ids', type=int, nargs='+', default=[0], help='gpus to use')
 parser.add_argument('--nThreads', type=int, default=4, help='number of threads to use in data loader')
+parser.add_argument('--load_size', type=int, default=64)
 
 parser.add_argument('--model_path', type=str, default=None, help='location of model, will default to ./weights/v[version]/[net_name].pth')
 
@@ -40,7 +41,7 @@ elif(opt.model in ['l2','ssim']):
 
 # initialize data loader
 for dataset in opt.datasets:
-	data_loader = dl.CreateDataLoader(dataset,dataroot=opt.data_root,dataset_mode=opt.dataset_mode, batch_size=opt.batch_size, nThreads=opt.nThreads)
+	data_loader = dl.CreateDataLoader(dataset,dataroot=opt.data_root,load_size=opt.load_size,dataset_mode=opt.dataset_mode, batch_size=opt.batch_size, nThreads=opt.nThreads)
 
 	# evaluate model on data
 	if(opt.dataset_mode=='2afc'):
