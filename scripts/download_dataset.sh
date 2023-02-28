@@ -5,7 +5,7 @@ mkdir /data/dataset/lpips/
 wget https://people.eecs.berkeley.edu/~rich.zhang/projects/2018_perceptual/dataset/jnd.tar.gz -O /data/dataset/lpips/jnd.tar.gz
 
 mkdir /data/dataset/lpips/jnd
-tar -xzf /data/dataset/lpips/jnd.tar.gz -C /data/dataset/lpips/jnd
+tar -xzf /data/dataset/lpips/jnd.tar.gz -C /data/dataset/lpips
 rm /data/dataset/lpips/jnd.tar.gz
 
 # 2AFC Val set
