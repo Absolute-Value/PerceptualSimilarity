@@ -11,6 +11,7 @@ from util.visualizer import Visualizer
 from IPython import embed
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--data_root', type=str, default='/data/dataset/lpips')
 parser.add_argument('--datasets', type=str, nargs='+', default=['train/traditional','train/cnn','train/mix'], help='datasets to train on: [train/traditional],[train/cnn],[train/mix],[val/traditional],[val/cnn],[val/color],[val/deblur],[val/frameinterp],[val/superres]')
 parser.add_argument('--model', type=str, default='lpips', help='distance model type [lpips] for linearly calibrated net, [baseline] for off-the-shelf network, [l2] for euclidean distance, [ssim] for Structured Similarity Image Metric')
 parser.add_argument('--net', type=str, default='alex', help='[squeeze], [alex], or [vgg] for network architectures')
@@ -47,7 +48,7 @@ trainer.initialize(model=opt.model, net=opt.net, use_gpu=opt.use_gpu, is_train=T
     pnet_rand=opt.from_scratch, pnet_tune=opt.train_trunk, gpu_ids=opt.gpu_ids)
 
 # load data from all training sets
-data_loader = dl.CreateDataLoader(opt.datasets,dataset_mode='2afc', batch_size=opt.batch_size, serial_batches=False, nThreads=opt.nThreads)
+data_loader = dl.CreateDataLoader(opt.datasets,dataroot=opt.data_root,dataset_mode='2afc', batch_size=opt.batch_size, serial_batches=False, nThreads=opt.nThreads)
 dataset = data_loader.load_data()
 dataset_size = len(data_loader)
 D = len(dataset)

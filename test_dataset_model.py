@@ -5,6 +5,7 @@ import argparse
 from IPython import embed
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--data_root', type=str, default='/data/dataset/lpips')
 parser.add_argument('--dataset_mode', type=str, default='2afc', help='[2afc,jnd]')
 parser.add_argument('--datasets', type=str, nargs='+', default=['val/traditional','val/cnn','val/superres','val/deblur','val/color','val/frameinterp'], help='datasets to test - for jnd mode: [val/traditional],[val/cnn]; for 2afc mode: [train/traditional],[train/cnn],[train/mix],[val/traditional],[val/cnn],[val/color],[val/deblur],[val/frameinterp],[val/superres]')
 parser.add_argument('--model', type=str, default='lpips', help='distance model type [lpips] for linearly calibrated net, [baseline] for off-the-shelf network, [l2] for euclidean distance, [ssim] for Structured Similarity Image Metric')
@@ -39,7 +40,7 @@ elif(opt.model in ['l2','ssim']):
 
 # initialize data loader
 for dataset in opt.datasets:
-	data_loader = dl.CreateDataLoader(dataset,dataset_mode=opt.dataset_mode, batch_size=opt.batch_size, nThreads=opt.nThreads)
+	data_loader = dl.CreateDataLoader(dataset,dataroot=opt.data_root,dataset_mode=opt.dataset_mode, batch_size=opt.batch_size, nThreads=opt.nThreads)
 
 	# evaluate model on data
 	if(opt.dataset_mode=='2afc'):
