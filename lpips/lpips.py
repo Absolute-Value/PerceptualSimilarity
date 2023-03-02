@@ -79,12 +79,15 @@ class LPIPS(nn.Module):
         elif(self.pnet_type=='squeeze'):
             net_type = pn.squeezenet
             self.chns = [64,128,256,384,384,512,512]
-        elif(self.pnet_type=='swin'):
+        elif('swin' in self.pnet_type):
             net_type = pn.SwinTransformer
             self.chns = [128,256,512,1024]
         self.L = len(self.chns)
 
-        self.net = net_type(pretrained=not self.pnet_rand, requires_grad=self.pnet_tune)
+        if('swin' in self.pnet_type):
+            self.net = net_type(pretrained=not self.pnet_rand, requires_grad=self.pnet_tune, pnet_type=self.pnet_type)
+        else:
+            self.net = net_type(pretrained=not self.pnet_rand, requires_grad=self.pnet_tune)
 
         if(lpips):
             self.lin0 = NetLinLayer(self.chns[0], use_dropout=use_dropout)
@@ -92,7 +95,7 @@ class LPIPS(nn.Module):
             self.lin2 = NetLinLayer(self.chns[2], use_dropout=use_dropout)
             self.lin3 = NetLinLayer(self.chns[3], use_dropout=use_dropout)
             self.lins = [self.lin0,self.lin1,self.lin2,self.lin3]
-            if(self.pnet_type!='swin'):
+            if('swin' not in self.pnet_type):
                 self.lin4 = NetLinLayer(self.chns[4], use_dropout=use_dropout)
                 self.lins+=[self.lin4]
             if(self.pnet_type=='squeeze'): # 7 layers for squeezenet

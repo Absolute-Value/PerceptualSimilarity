@@ -3,9 +3,12 @@ import torch
 from torchvision import models as tv
 
 class SwinTransformer(torch.nn.Module):
-    def __init__(self, requires_grad=False, pretrained=True):
+    def __init__(self, requires_grad=False, pretrained=True, pnet_type="swin"):
         super(SwinTransformer, self).__init__()
-        pretrained_features = tv.swin_transformer.swin_b(weights='IMAGENET1K_V1').features
+        if pnet_type == "swin":
+            pretrained_features = tv.swin_transformer.swin_b(weights='IMAGENET1K_V1').features
+        else:
+            pretrained_features = tv.swin_transformer.swin_v2_b(weights='IMAGENET1K_V1').features
         self.slice1 = torch.nn.Sequential()
         self.slice2 = torch.nn.Sequential()
         self.slice3 = torch.nn.Sequential()
@@ -40,7 +43,7 @@ class SwinTransformer(torch.nn.Module):
 class squeezenet(torch.nn.Module):
     def __init__(self, requires_grad=False, pretrained=True):
         super(squeezenet, self).__init__()
-        pretrained_features = tv.squeezenet1_1(pretrained=pretrained).features
+        pretrained_features = tv.squeezenet1_1(weights='IMAGENET1K_V1').features
         self.slice1 = torch.nn.Sequential()
         self.slice2 = torch.nn.Sequential()
         self.slice3 = torch.nn.Sequential()
@@ -91,7 +94,7 @@ class squeezenet(torch.nn.Module):
 class alexnet(torch.nn.Module):
     def __init__(self, requires_grad=False, pretrained=True):
         super(alexnet, self).__init__()
-        alexnet_pretrained_features = tv.alexnet(pretrained=pretrained).features
+        alexnet_pretrained_features = tv.alexnet(weights='IMAGENET1K_V1').features
         self.slice1 = torch.nn.Sequential()
         self.slice2 = torch.nn.Sequential()
         self.slice3 = torch.nn.Sequential()
@@ -131,7 +134,7 @@ class alexnet(torch.nn.Module):
 class vgg16(torch.nn.Module):
     def __init__(self, requires_grad=False, pretrained=True):
         super(vgg16, self).__init__()
-        vgg_pretrained_features = tv.vgg16(pretrained=pretrained).features
+        vgg_pretrained_features = tv.vgg16(weights='IMAGENET1K_V1').features
         self.slice1 = torch.nn.Sequential()
         self.slice2 = torch.nn.Sequential()
         self.slice3 = torch.nn.Sequential()
